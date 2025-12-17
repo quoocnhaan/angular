@@ -1,0 +1,72 @@
+<!-- Modal -->
+<div class="modal fade show d-block" tabindex="-1" role="dialog" style="background: rgba(0,0,0,.5)">
+    <div class="modal-dialog modal-lg modal-dialog-centered">
+        <div class="modal-content">
+
+            <div class="modal-header">
+                <h5 class="modal-title">
+                    {{ isEdit ? 'Edit Product' : 'Create Product' }}
+                </h5>
+                <button type="button" class="btn-close" (click)="cancel()"></button>
+            </div>
+
+            <form [formGroup]="form" (ngSubmit)="submit()">
+
+                <div class="modal-body">
+
+                    <div class="row g-3">
+
+                        <div class="col-md-6">
+                            <label class="form-label">Product ID</label>
+                            <input class="form-control" formControlName="id">
+                        </div>
+
+                        <div class="col-md-6">
+                            <label class="form-label">Name</label>
+                            <input class="form-control" formControlName="name">
+                        </div>
+
+                        <div class="col-md-4">
+                            <label class="form-label">Price</label>
+                            <input type="number" class="form-control" formControlName="price">
+                        </div>
+
+                        <div class="col-md-4">
+                            <label class="form-label">Quantity</label>
+                            <input type="number" class="form-control" formControlName="quantity">
+                        </div>
+
+                        <div class="col-md-4">
+                            <label class="form-label">Discount (%)</label>
+                            <input type="number" class="form-control" formControlName="discount">
+                        </div>
+
+                        <div class="col-md-6">
+                            <label class="form-label">Brand</label>
+                            <input class="form-control" formControlName="brand">
+                        </div>
+
+                        <div class="col-md-6">
+                            <label class="form-label">Image URL</label>
+                            <input class="form-control" formControlName="image">
+                        </div>
+
+                        <div class="col-12">
+                            <label class="form-label">Description</label>
+                            <textarea rows="3" class="form-control" formControlName="description"></textarea>
+                        </div>
+
+                    </div>
+                </div>
+
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-light" (click)="cancel()">Cancel</button>
+                    <button type="submit" class="btn btn-primary" [disabled]="form.invalid">
+                        {{ isEdit ? 'Update' : 'Create' }}
+                    </button>
+                </div>
+
+            </form>
+        </div>
+    </div>
+</div>
