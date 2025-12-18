@@ -15,6 +15,7 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { deleteDoc, doc, updateDoc } from 'firebase/firestore';
 import { ProductFormComponent } from '../product-form/product-form';
+import { NgxPaginationModule } from 'ngx-pagination';
 
 export interface Product {
   docId: string;
@@ -32,44 +33,39 @@ export interface Product {
 @Component({
   selector: 'app-home',
   standalone: true,
-  imports: [CommonModule, FormsModule, ProductFormComponent],
+  imports: [CommonModule, FormsModule, ProductFormComponent, NgxPaginationModule],
   templateUrl: './home.html',
   styleUrl: './home.css',
 })
 export class Home {
-
-  title = 'app4';
   firestore: Firestore = inject(Firestore);
 
   products!: Observable<Product[]>;
 
-  displayedProducts: Product[] = [];
+  config: any;
 
   searchText = '';
   brand = '';
   promoted = false;
   status: '' | 'in' | 'out' = '';
 
+  currentPage = 1;
+
   showForm = false;
   selectedProduct?: Product;
 
   ngOnInit() {
+    console.log('Home component initialized');
     this.loadProducts();
   }
 
   loadProducts() {
     const ref = collection(this.firestore, 'products');
-
     let q = query(ref, orderBy('name_lower'));
 
     if (this.searchText) {
       const text = this.searchText.toLowerCase();
-      q = query(
-        ref,
-        orderBy('name_lower'),
-        startAt(text),
-        endAt(text + '\uf8ff')
-      );
+      q = query(ref, orderBy('name_lower'), startAt(text), endAt(text + '\uf8ff'));
     }
 
     if (this.brand) {
@@ -95,9 +91,22 @@ export class Home {
           ...item,
           createdAt: item.createdAt?.toDate()
         }))
-      ), tap(items => this.closeForm())
-    ) as Observable<Product[]>;
+      ),
+      tap(items => {
+        this.closeForm();
 
+        // Update totalItems here
+        this.config = {
+          itemsPerPage: 3,
+          currentPage: 1,
+          totalItems: items.length
+        };
+      })
+    ) as Observable<Product[]>;
+  }
+
+  pageChanged(event: any) {
+    this.config.currentPage = event;
   }
 
   deleteProduct(docId: string) {

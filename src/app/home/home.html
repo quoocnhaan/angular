@@ -50,7 +50,6 @@
             <!-- ================= TABLE ================= -->
             <div class="table-responsive mt-4">
                 <table class="table mb-0 text-nowrap varient-table align-middle fs-3">
-
                     <!-- ========== TABLE HEAD ========== -->
                     <thead>
                         <tr>
@@ -65,68 +64,33 @@
                             <th class="px-0 text-muted">Status</th>
                             <th class="px-0 text-muted text-end center-text">Price</th>
                             <th class="px-0 text-muted text-end">Actions</th>
-
                         </tr>
-                    </thead>
-
-                    <!-- ========== TABLE BODY ========== -->
-                    <tbody>
-
-                        @for (p of products | async; track p) {
-                        <tr>
+                    </thead> <!-- ========== TABLE BODY ========== -->
+                    <tbody> @for (p of products | async; track p ) { <tr>
                             <td class="px-0">{{ p.id }}</td>
-                            <td class="px-0">
-                                <img [src]="p.image" width="60" class="rounded" />
-                            </td>
-
+                            <td class="px-0"> <img [src]="p.image" width="60" class="rounded" /> </td>
                             <td class="px-0 fw-bolder">{{ p.name }}</td>
-
                             <td class="px-0 text-muted">{{ p.description }}</td>
-
                             <td class="px-0">{{ p.brand }}</td>
-
                             <td class="px-0 center-text">{{ p.quantity }}</td>
-
                             <td class="px-0 center-text">{{ p.discount }}%</td>
-
+                            <td class="px-0"> {{ p.createdAt | date:'dd-MM-yyyy HH:mm' }} </td>
                             <td class="px-0">
-                                {{ p.createdAt | date:'dd-MM-yyyy HH:mm' }}
-                            </td>
-
-                            <td class="px-0">
-                                <span *ngIf="p.quantity > 0" class="badge bg-success">
-                                    In Stock
+                                <span *ngIf="p.quantity > 0" style="font-size: 100%" class="badge bg-success"> In Stock
                                 </span>
-                                <span *ngIf="p.quantity === 0" class="badge bg-danger">
-                                    Out of Stock
-                                </span>
+                                <span *ngIf="p.quantity === 0" style="font-size: 100%" class="badge bg-danger"> Out of
+                                    Stock </span>
                             </td>
-
-                            <td class="px-0 text-end fw-medium center-text">
-                                ${{ p.price }}
+                            <td class="px-0 text-end fw-medium center-text"> ${{ p.price }} </td>
+                            <td class="px-0 text-end"> <button class="btn btn-sm btn-primary me-2"
+                                    (click)="openEdit(p)"> Edit </button>
+                                <button class="btn btn-sm btn-danger" (click)="deleteProduct(p.docId)"> Delete </button>
                             </td>
-
-                            <td class="px-0 text-end">
-                                <button class="btn btn-sm btn-primary me-2" (click)="openEdit(p)">
-                                    Edit
-                                </button>
-
-                                <button class="btn btn-sm btn-danger" (click)="deleteProduct(p.docId)">
-                                    Delete
-                                </button>
-                            </td>
-                        </tr>
-                        }
-
-                        <!-- Empty state -->
+                        </tr> } <!-- Empty state -->
                         <tr *ngIf="(products | async)?.length === 0">
-                            <td colspan="9" class="text-center text-muted py-4">
-                                No products found
-                            </td>
+                            <td colspan="9" class="text-center text-muted py-4"> No products found </td>
                         </tr>
-
                     </tbody>
-
                 </table>
 
 
