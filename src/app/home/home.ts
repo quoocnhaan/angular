@@ -13,7 +13,7 @@ import {
 import { map, Observable, tap } from 'rxjs';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { deleteDoc, doc} from 'firebase/firestore';
+import { deleteDoc, doc } from 'firebase/firestore';
 import { ProductFormComponent } from '../product-form/product-form';
 import { Product } from '../models/product';
 
@@ -44,42 +44,52 @@ export class Home {
 
   loadProducts() {
     const ref = collection(this.firestore, 'products');
-    let q = query(ref, orderBy('name_lower'));
 
-    if (this.searchText) {
-      const text = this.searchText.toLowerCase();
-      q = query(ref, orderBy('name_lower'), startAt(text), endAt(text + '\uf8ff'));
-    }
-
-    if (this.brand) {
-      const text = this.brand.toLowerCase();
-      q = query(q, where('brand_lower', '==', text));
-    }
-
-    if (this.promoted) {
-      q = query(q, where('discount', '>', 0));
-    }
-
-    if (this.status === 'in') {
-      q = query(q, where('quantity', '>', 0));
-    }
-
-    if (this.status === 'out') {
-      q = query(q, where('quantity', '==', 0));
-    }
-
-    this.products = collectionData(q, { idField: 'docId' }).pipe(
-      map((items: any[]) =>
-        items.map(item => ({
+    this.products = collectionData(ref, { idField: 'docId' }).pipe(
+      map((items: any[]) => {
+        let result = items.map(item => ({
           ...item,
           createdAt: item.createdAt?.toDate()
-        }))
-      ),
-      tap(items => {
+        }));
+
+        if (this.searchText) {
+          const text = this.searchText.toLowerCase();
+          result = result.filter(p =>
+            p.name_lower?.includes(text)
+          );
+        }
+
+        if (this.brand) {
+          const text = this.brand.toLowerCase();
+          result = result.filter(p =>
+            p.brand_lower === text
+          );
+        }
+
+        if (this.promoted) {
+          result = result.filter(p => p.discount > 0);
+        }
+
+        if (this.status === 'in') {
+          result = result.filter(p => p.quantity > 0);
+        }
+
+        if (this.status === 'out') {
+          result = result.filter(p => p.quantity === 0);
+        }
+
+        result.sort((a, b) =>
+          a.name_lower.localeCompare(b.name_lower)
+        );
+
+        return result;
+      }),
+      tap(() => {
         this.closeForm();
       })
     ) as Observable<Product[]>;
   }
+
 
   deleteProduct(docId: string) {
     if (!confirm('Are you sure you want to delete this product?')) return;

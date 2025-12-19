@@ -4,7 +4,7 @@
             <!-- Nested Row within Card Body -->
             <div class="row">
                 <div class="col-lg-5 d-none d-lg-block bg-register-image">
-                    <img src="/assets/img/product25.jpg" alt="Logo" class="img-fluid">
+                    <img src="/assets/img/logo3.png" alt="Logo" class="img-fluid">
                 </div>
                 <div class="col-lg-7">
                     <div class="p-5">
@@ -12,15 +12,22 @@
                             <h1 class="h4 text-gray-900 mb-4">Create an Account!</h1>
                         </div>
 
-                        @if ((f['ConfirmPassword'].touched || f['ConfirmPassword'].dirty) &&
-                        f['ConfirmPassword'].invalid) {
-                        @if (f['ConfirmPassword'].hasError('required')) {
+                        @if (f['ConfirmPassword'].touched && f['ConfirmPassword'].hasError('required')) {
                         <span class="text-danger">Confirm Password is required</span>
                         }
-                        @else if (f['ConfirmPassword'].hasError('mustMatch')) {
+                        @else if (f['ConfirmPassword'].touched && f['ConfirmPassword'].hasError('mustMatch')) {
                         <span class="text-danger">Passwords must match</span>
                         }
+                        @else if (f['email'].touched && f['email'].invalid) {
+                        <span class="text-danger">Email is invalid</span>
                         }
+                        @else if (f['password'].touched && f['password'].hasError('required')) {
+                        <span class="text-danger">Password is required</span>
+                        }
+                        @else if (f['password'].touched && f['password'].hasError('minlength')) {
+                        <span class="text-danger">Password have to be at least 6 characters</span>
+                        }
+
                         <form [formGroup]="frmRegister" class="user" (ngSubmit)="createAccount()">
                             <div class="form-group">
                                 <input type="email" class="form-control form-control-user" id="exampleInputEmail"
@@ -43,6 +50,10 @@
                                 class="btn btn-primary btn-user btn-block">
                                 Register Account
                             </button>
+                            <hr>
+                            <a (click)="authService.loginWithGoogle()" class="btn btn-google btn-user btn-block">
+                                <i class="fab fa-google fa-fw"></i> Login with Google
+                            </a>
 
                         </form>
                         <hr>

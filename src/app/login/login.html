@@ -10,7 +10,7 @@
                     <!-- Nested Row within Card Body -->
                     <div class="row">
                         <div class="col-lg-6 d-none d-lg-block bg-login-image">
-                            <img src="/assets/img/product25.jpg" alt="Logo" class="img-fluid">
+                            <img src="/assets/img/logo2.png" alt="Logo" class="img-fluid">
                         </div>
                         <div class="col-lg-6">
                             <div class="p-5">
@@ -45,7 +45,7 @@
                                                 Me</label>
                                         </div>
                                     </div>
-                                    <button type="submit" class="btn btn-primary btn-user btn-block">
+                                    <button [disabled]="frmLogin.invalid" type="submit" class="btn btn-primary btn-user btn-block">
                                         Login
                                     </button>
                                     <hr>
