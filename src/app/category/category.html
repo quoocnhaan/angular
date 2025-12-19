@@ -1,0 +1,61 @@
+<div class="container-fluid">
+
+    <div class="card">
+        <div class="card-body">
+
+            <!-- ================= HEADER ================= -->
+            <div class=" d-md-flex justify-content-between align-items-center">
+                <div>
+                    <h4 class="card-title">Products Performance</h4>
+                    <p class="card-subtitle">All category attributes</p>
+                </div>
+
+                <div class="align-items-center mt-3 mt-md-0 d-flex gap-2">
+
+                    <!-- Create -->
+                    <div>
+                        <button style="width: 140px;" class="btn btn-success" (click)="openCreate()">
+                            + New Category
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ================= TABLE ================= -->
+            <div class="table-responsive mt-4">
+                <table class="table mb-0 text-nowrap varient-table align-middle fs-3">
+                    <!-- ========== TABLE HEAD ========== -->
+                    <thead>
+                        <tr>
+                            <th class="px-0 text-muted">ID</th>
+                            <th class="px-0 text-muted">Name</th>
+                            <th class="px-0 text-muted">Description</th>
+                            <th class="px-0 text-muted text-end">Actions</th>
+                        </tr>
+                    </thead> <!-- ========== TABLE BODY ========== -->
+                    <tbody> @for (c of categories | async; track c ) { <tr>
+                            <td class="px-0">{{ c.id }}</td>
+                            <td class="px-0 fw-bolder">{{ c.name }}</td>
+                            <td class="px-0 text-muted">{{ c.description }}</td>
+                             <td class="px-0 text-end"> <button class="btn btn-sm btn-primary me-2"
+                                    (click)="openEdit(c)"> Edit </button>
+                                <button class="btn btn-sm btn-danger" (click)="deleteCategory(c.docId)"> Delete </button>
+                            </td>
+                        </tr> } <!-- Empty state -->
+                        <tr *ngIf="(categories | async)?.length === 0">
+                            <td colspan="9" class="text-center text-muted py-4"> No categories found </td>
+                        </tr>
+                    </tbody>
+                </table>
+
+
+                <app-category-form *ngIf="showForm" [category]="selectedCategory" (saved)="loadCategories();"
+                    (cancelled)="closeForm()">
+                </app-category-form>
+
+            </div>
+
+        </div>
+    </div>
+
+</div>

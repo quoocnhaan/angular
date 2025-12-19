@@ -3,6 +3,7 @@ import { Register } from './register/register';
 import { Home } from './home/home';
 import { Login } from './login/login';
 import { authGuard } from './auth-guard';
+import { CategoryComponent } from './category/category';
 
 export const routes: Routes = [
 
@@ -18,7 +19,10 @@ export const routes: Routes = [
         path: 'login', component: Login
     },
     {
+        path: 'categories', component: CategoryComponent
+    },
+    {
         path: '**', redirectTo: 'login'
-    }
+    }, 
 
 ];

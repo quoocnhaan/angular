@@ -9,18 +9,18 @@ export class CategoriesService {
   http = inject(HttpClient);
 
   getCategories() {
-    return this.http.get<Category[]>('/api/categories');
+    return this.http.get<Category[]>('http://localhost:8000/api/categories');
   }
 
   insertCategory(category: Category) {
-    return this.http.post<Category>('/api/categories', category);
+    return this.http.post<Category>('http://localhost:8000/api/categories', category);
   }
 
   updateCategory(category: Category) {
-    return this.http.put<Category>('/api/categories', category);
+    return this.http.put<Category>('http://localhost:8000/api/categories', category);
   }
 
   deleteCategory(categoryDocId: string) {
-    return this.http.delete<void>('/api/categories', { body: { docId: categoryDocId } });
+    return this.http.delete<void>('http://localhost:8000/api/categories', { body: { docId: categoryDocId } });
   }
 }

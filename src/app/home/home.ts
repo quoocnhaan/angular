@@ -13,27 +13,14 @@ import {
 import { map, Observable, tap } from 'rxjs';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { deleteDoc, doc, updateDoc } from 'firebase/firestore';
+import { deleteDoc, doc} from 'firebase/firestore';
 import { ProductFormComponent } from '../product-form/product-form';
-import { NgxPaginationModule } from 'ngx-pagination';
-
-export interface Product {
-  docId: string;
-  id: string;
-  name: string;
-  price: number;
-  quantity: number;
-  image: string;
-  discount: number;
-  description: string;
-  createdAt: Date;
-  brand: string;
-}
+import { Product } from '../models/product';
 
 @Component({
   selector: 'app-home',
   standalone: true,
-  imports: [CommonModule, FormsModule, ProductFormComponent, NgxPaginationModule],
+  imports: [CommonModule, FormsModule, ProductFormComponent],
   templateUrl: './home.html',
   styleUrl: './home.css',
 })
@@ -42,14 +29,10 @@ export class Home {
 
   products!: Observable<Product[]>;
 
-  config: any;
-
   searchText = '';
   brand = '';
   promoted = false;
   status: '' | 'in' | 'out' = '';
-
-  currentPage = 1;
 
   showForm = false;
   selectedProduct?: Product;
@@ -94,19 +77,8 @@ export class Home {
       ),
       tap(items => {
         this.closeForm();
-
-        // Update totalItems here
-        this.config = {
-          itemsPerPage: 3,
-          currentPage: 1,
-          totalItems: items.length
-        };
       })
     ) as Observable<Product[]>;
-  }
-
-  pageChanged(event: any) {
-    this.config.currentPage = event;
   }
 
   deleteProduct(docId: string) {
