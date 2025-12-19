@@ -23,6 +23,7 @@ export const authGuard: CanActivateFn = (route, state) => {
         // Nếu chưa đăng nhập:
         // 1. Chuyển hướng về trang login
         // 2. (Tùy chọn) Lưu lại URL hiện tại để login xong quay lại đúng chỗ đó
+        console.log("failed");
         return router.createUrlTree(['/login'], {
           queryParams: { returnUrl: state.url }
         });

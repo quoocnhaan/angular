@@ -42,7 +42,15 @@ export class CategoryForm {
 
 
     if (this.isEdit && this.category) {
-      this.categorieService.updateCategory(value as Category);
+
+      var updatedCategory: Category = {
+        docId: this.category.docId,
+        id: value.id,
+        name: value.name,
+        description: value.description
+      };
+
+      this.categorieService.updateCategory(updatedCategory);
     } else {
       this.categorieService.insertCategory(value as Category);
     }

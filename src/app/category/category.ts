@@ -25,7 +25,7 @@ export class CategoryComponent {
 
   loadCategories() {
     this.closeForm();
-    this.categories = this.categoriesService.getCategories();
+    this.categories = this.categoriesService.getCategories() as Observable<Category[]>;
   }
 
   deleteCategory(docId: string) {
@@ -39,6 +39,7 @@ export class CategoryComponent {
   }
 
   openEdit(p: Category) {
+    console.log('Editing category:', p);
     this.selectedCategory = p;
     this.showForm = true;
   }
