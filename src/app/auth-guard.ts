@@ -1,33 +1,22 @@
 import { CanActivateFn } from '@angular/router';
 import { inject } from '@angular/core';
 import { Router } from '@angular/router';
-import { map, take } from 'rxjs';
-import { Auth, authState } from '@angular/fire/auth';
+import { Auth } from '@angular/fire/auth';
 
-export const authGuard: CanActivateFn = (route, state) => {
-
+export const authGuard: CanActivateFn = async (route, state) => {
   const auth = inject(Auth);
   const router = inject(Router);
-  // authState là một Observable trả về trạng thái user (null hoặc User object)
-  return authState(auth).pipe(
-    // quan trọng: take(1) để Observable tự complete sau khi nhận giá trị đầu tiên
-    // Nếu không có take(1), Guard sẽ treo mãi không cho vào trang
-    take(1),
-    map(user => {
-      const isLoggedIn = !!user; // Chuyển đổi sang boolean
 
-      if (isLoggedIn) {
-        console.log("User is logged in, access granted to:");
-        return true; // Cho phép đi tiếp
-      } else {
-        // Nếu chưa đăng nhập:
-        // 1. Chuyển hướng về trang login
-        // 2. (Tùy chọn) Lưu lại URL hiện tại để login xong quay lại đúng chỗ đó
-        console.log("failed");
-        return router.createUrlTree(['/login'], {
-          queryParams: { returnUrl: state.url }
-        });
-      }
-    })
-  );
+  // 🔑 WAIT until Firebase restores auth from storage
+  await auth.authStateReady();
+
+  const user = auth.currentUser;
+
+  if (user) {
+    return true;
+  }
+
+  return router.createUrlTree(['/login'], {
+    queryParams: { returnUrl: state.url }
+  });
 };

@@ -29,12 +29,12 @@ export class CategoriesService {
       name: category.name,
       description: category.description,
     };
-
-    return this.http.post<Category>(
+    const result = this.http.post<Category>(
       this.baseUrl,
       body,
       { headers: this.jsonHeaders }
     );
+    return result;
   }
 
 
@@ -47,11 +47,12 @@ export class CategoriesService {
       description: category.description,
     };
 
-    return this.http.put<Category>(
+    const result = this.http.put<Category>(
       this.baseUrl,
       body,
       { headers: this.jsonHeaders }
     );
+    return result;
   }
 
   // delete

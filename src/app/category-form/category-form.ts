@@ -50,13 +50,20 @@ export class CategoryForm {
         description: value.description
       };
 
-      this.categorieService.updateCategory(updatedCategory);
+      this.categorieService.updateCategory(updatedCategory).subscribe(
+        () => {
+          this.saved.emit();
+          this.form.reset();
+        });
     } else {
-      this.categorieService.insertCategory(value as Category);
+      this.categorieService.insertCategory(value as Category).subscribe(
+        () => {
+          this.saved.emit();
+          this.form.reset();
+        });
     }
 
-    this.saved.emit();
-    this.form.reset();
+
   }
 
   cancel() {
