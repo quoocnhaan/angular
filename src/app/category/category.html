@@ -34,7 +34,7 @@
                             <th class="px-0 text-muted text-end">Actions</th>
                         </tr>
                     </thead> <!-- ========== TABLE BODY ========== -->
-                    <tbody> @for (c of categories | async; track c ) { <tr>
+                    <tbody> @for (c of categories | async; track c.docId ) { <tr>
                             <td class="px-0">{{ c.docId }}</td>
                             <td class="px-0">{{ c.id }}</td>
                             <td class="px-0 fw-bolder">{{ c.name }}</td>

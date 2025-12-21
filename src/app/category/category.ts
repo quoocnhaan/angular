@@ -30,7 +30,10 @@ export class CategoryComponent {
 
   deleteCategory(docId: string) {
     if (!confirm('Are you sure you want to delete this category?')) return;
-    this.categoriesService.deleteCategory(docId);
+    this.categoriesService.deleteCategory(docId).subscribe(() => {
+      console.log('Category deleted successfully');
+    });
+    this.loadCategories();
   }
 
   openCreate() {
