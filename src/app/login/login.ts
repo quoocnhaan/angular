@@ -2,10 +2,11 @@ import { Component, inject } from '@angular/core';
 import { AuthService } from '../services/auth';
 import { FormBuilder, ReactiveFormsModule, Validators, ɵInternalFormsSharedModule } from '@angular/forms';
 import { Router, RouterLink } from '@angular/router';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-login',
-  imports: [ɵInternalFormsSharedModule, ReactiveFormsModule, RouterLink],
+  imports: [ɵInternalFormsSharedModule, ReactiveFormsModule, RouterLink, CommonModule],
   templateUrl: './login.html',
   styleUrl: './login.css',
 })

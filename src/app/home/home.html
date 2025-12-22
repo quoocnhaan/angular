@@ -24,8 +24,8 @@
                     <input type="text" class="form-control" placeholder="Search name..." [(ngModel)]="searchText"
                         (input)="loadProducts()" />
 
-                    <!-- Brand -->
-                    <input type="text" class="form-control" placeholder="Brand" [(ngModel)]="brand"
+                    <!-- Category -->
+                    <input type="text" class="form-control" placeholder="Category" [(ngModel)]="category"
                         (change)="loadProducts()" />
 
                     <!-- Stock -->
@@ -57,7 +57,7 @@
                             <th class="px-0 text-muted">Image</th>
                             <th class="px-0 text-muted">Name</th>
                             <th class="px-0 text-muted">Description</th>
-                            <th class="px-0 text-muted">Brand</th>
+                            <th class="px-0 text-muted">Category</th>
                             <th class="px-0 text-muted center-text">Quantity</th>
                             <th class="px-0 text-muted center-text">Discount (%)</th>
                             <th class="px-0 text-muted">Created At</th>
@@ -71,7 +71,7 @@
                             <td class="px-0"> <img [src]="p.image" width="60" class="rounded" /> </td>
                             <td class="px-0 fw-bolder">{{ p.name }}</td>
                             <td class="px-0 text-muted">{{ p.description }}</td>
-                            <td class="px-0">{{ p.brand }}</td>
+                            <td class="px-0">{{ p.category }}</td>
                             <td class="px-0 center-text">{{ p.quantity }}</td>
                             <td class="px-0 center-text">{{ p.discount }}%</td>
                             <td class="px-0"> {{ p.createdAt | date:'dd-MM-yyyy HH:mm' }} </td>

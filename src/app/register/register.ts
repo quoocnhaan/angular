@@ -1,12 +1,14 @@
-import { Component, inject } from '@angular/core';
-import { FormBuilder, ReactiveFormsModule, Validators, ɵInternalFormsSharedModule } from '@angular/forms';
+import { Component, inject, NgModule } from '@angular/core';
+import { FormBuilder, NgModel, ReactiveFormsModule, Validators, ɵInternalFormsSharedModule } from '@angular/forms';
 import { mustMatch } from '../helper/mustMatch-validator';
 import { AuthService } from '../services/auth';
 import { Router, RouterLink } from '@angular/router';
+import { CommonModule } from '@angular/common';
+
 
 @Component({
   selector: 'app-register',
-  imports: [ɵInternalFormsSharedModule, ReactiveFormsModule, RouterLink],
+  imports: [ɵInternalFormsSharedModule, ReactiveFormsModule, RouterLink, CommonModule],
   templateUrl: './register.html',
   styleUrl: './register.css',
 })

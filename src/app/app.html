@@ -1,6 +1,8 @@
 <!-- Page Wrapper -->
 <div id="wrapper">
 
+
+  @if(authService.isAuthenticated()) {
   <!-- Sidebar -->
   <app-sidebar></app-sidebar>
   <!-- End of Sidebar -->
@@ -27,6 +29,13 @@
     <!-- End of Footer -->
 
   </div>
+  } @else {
+  <div id="content-wrapper" class="d-flex flex-column">
+    <div id="content">
+      <router-outlet></router-outlet>
+    </div>
+  </div>
+  }
   <!-- End of Content Wrapper -->
 
 </div>
@@ -38,7 +47,7 @@
 </a>
 
 <!-- Logout Modal-->
-<div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+<!-- <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
   aria-hidden="true">
   <div class="modal-dialog" role="document">
     <div class="modal-content">
@@ -55,4 +64,4 @@
       </div>
     </div>
   </div>
-</div>
+</div> -->

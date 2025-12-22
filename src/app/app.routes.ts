@@ -19,10 +19,10 @@ export const routes: Routes = [
         path: 'login', component: Login
     },
     {
-        path: 'categories', component: CategoryComponent
+        path: 'categories', component: CategoryComponent, canActivate: [authGuard]
     },
     {
         path: '**', redirectTo: 'login'
-    }, 
+    },
 
 ];

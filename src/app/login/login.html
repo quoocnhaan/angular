@@ -1,4 +1,4 @@
-<div class="container-xxl">
+<div [ngClass]="!authService.isAuthenticated() ? 'custom-container' : ''" class="container-xxl">
 
     <!-- Outer Row -->
     <div class="row justify-content-center">

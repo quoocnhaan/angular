@@ -6,9 +6,12 @@ import {
   collection,
   addDoc,
   doc,
-  updateDoc
+  updateDoc,
+  collectionData
 } from '@angular/fire/firestore';
 import { Product } from '../models/product';
+import { Category } from '../models/categories';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-product-form',
@@ -27,6 +30,8 @@ export class ProductFormComponent implements OnInit {
 
   isEdit = false;
 
+  categories!: Observable<Category[]>;
+
   form = this.fb.nonNullable.group({
     id: ['', Validators.required],
     name: ['', Validators.required],
@@ -35,7 +40,7 @@ export class ProductFormComponent implements OnInit {
     image: ['', Validators.required],
     discount: [0, [Validators.min(0), Validators.max(100)]],
     description: [''],
-    brand: ['', Validators.required],
+    category: ['', Validators.required],
   });
 
   ngOnInit(): void {
@@ -49,9 +54,12 @@ export class ProductFormComponent implements OnInit {
         image: this.product.image,
         discount: this.product.discount,
         description: this.product.description,
-        brand: this.product.brand
+        category: this.product.category
       });
     }
+    const ref = collection(this.firestore, 'categories');
+
+    this.categories = collectionData(ref, { idField: 'docId' }) as Observable<Category[]>;
   }
 
   async submit() {
@@ -63,15 +71,12 @@ export class ProductFormComponent implements OnInit {
       await updateDoc(
         doc(this.firestore, 'products', this.product.docId),
         {
-          ...value,
-          name_lower: value.name.toLowerCase(),
-          brand_lower: value.brand.toLowerCase(),
+          ...value
         }
       );
     } else {
       await addDoc(collection(this.firestore, 'products'), {
         ...value,
-        name_lower: value.name.toLowerCase(),
         createdAt: new Date()
       });
     }

@@ -3,12 +3,6 @@ import {
   Firestore,
   collection,
   collectionData,
-  query,
-  where,
-  orderBy,
-  startAt,
-  endAt,
-  addDoc
 } from '@angular/fire/firestore';
 import { map, Observable, tap } from 'rxjs';
 import { CommonModule } from '@angular/common';
@@ -30,7 +24,7 @@ export class Home {
   products!: Observable<Product[]>;
 
   searchText = '';
-  brand = '';
+  category = '';
   promoted = false;
   status: '' | 'in' | 'out' = '';
 
@@ -55,14 +49,14 @@ export class Home {
         if (this.searchText) {
           const text = this.searchText.toLowerCase();
           result = result.filter(p =>
-            p.name_lower?.includes(text)
+            p.name.toLowerCase().includes(text)
           );
         }
 
-        if (this.brand) {
-          const text = this.brand.toLowerCase();
+        if (this.category) {
+          const text = this.category.toLowerCase();
           result = result.filter(p =>
-            p.brand_lower === text
+            p.category.toLowerCase() === text
           );
         }
 
@@ -79,7 +73,7 @@ export class Home {
         }
 
         result.sort((a, b) =>
-          a.name_lower.localeCompare(b.name_lower)
+          a.name.toLowerCase().localeCompare(b.name.toLowerCase())
         );
 
         return result;

@@ -8,5 +8,5 @@ export interface Product {
     discount: number;
     description: string;
     createdAt: Date;
-    brand: string;
+    category: string;
 }
