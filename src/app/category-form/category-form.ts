@@ -2,6 +2,7 @@ import { Component, EventEmitter, inject, Input, Output } from '@angular/core';
 import { Category } from '../models/categories';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { CategoriesService } from '../services/categories-service';
+import { ProductsService } from '../services/products-service';
 
 @Component({
   selector: 'app-category-form',
@@ -17,6 +18,7 @@ export class CategoryForm {
   private fb = inject(FormBuilder);
   isEdit = false;
   categorieService = inject(CategoriesService);
+  productsService = inject(ProductsService)
 
   form = this.fb.nonNullable.group({
     id: ['', Validators.required],
@@ -42,7 +44,7 @@ export class CategoryForm {
 
 
     if (this.isEdit && this.category) {
-
+      const oldName = this.category.name;
       var updatedCategory: Category = {
         docId: this.category.docId,
         id: value.id,
@@ -54,6 +56,7 @@ export class CategoryForm {
         () => {
           this.saved.emit();
           this.form.reset();
+          this.productsService.updateProductsCategory(oldName, value.name);
         });
     } else {
       this.categorieService.insertCategory(value as Category).subscribe(

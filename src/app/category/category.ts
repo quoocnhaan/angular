@@ -4,6 +4,8 @@ import { Observable } from 'rxjs';
 import { Category } from '../models/categories';
 import { CategoryForm } from '../category-form/category-form';
 import { CommonModule } from '@angular/common';
+import { Product } from '../models/product';
+import { ProductsService } from '../services/products-service';
 
 @Component({
   selector: 'app-category',
@@ -12,9 +14,11 @@ import { CommonModule } from '@angular/common';
   styleUrl: './category.css',
 })
 export class CategoryComponent {
-  categoriesService = inject(CategoriesService);
-  categories!: Observable<Category[]>;
+  private categoriesService = inject(CategoriesService);
+  private productsService = inject(ProductsService);
 
+  categories!: Observable<Category[]>;
+  products!: Observable<Product[]>;
 
   showForm = false;
   selectedCategory?: Category;
@@ -28,9 +32,20 @@ export class CategoryComponent {
     this.categories = this.categoriesService.getCategories() as Observable<Category[]>;
   }
 
-  deleteCategory(docId: string) {
+  async deleteCategory(category: Category) {
     if (!confirm('Are you sure you want to delete this category?')) return;
-    this.categoriesService.deleteCategory(docId).subscribe(() => {
+
+
+    const used = await this.productsService.hasProductsWithCategoryName(
+      category.name
+    );
+
+    if (used) {
+      alert(`Cannot delete "${category.name}" because products are using it.`);
+      return;
+    }
+
+    this.categoriesService.deleteCategory(category.docId).subscribe(() => {
       console.log('Category deleted successfully');
     });
     this.loadCategories();
